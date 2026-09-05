@@ -1,0 +1,405 @@
+/* =========================================
+   CREATE FOLDER MODAL
+========================================= */
+
+.folder-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  background: rgba(15, 23, 42, 0.65);
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  animation: folderOverlayFade 0.25s ease;
+}
+
+/* =========================================
+   MODAL
+========================================= */
+
+.folder-modal {
+  width: 100%;
+  max-width: 500px;
+
+  background: #ffffff;
+
+  border-radius: 24px;
+
+  padding: 28px;
+
+  box-shadow:
+    0 25px 60px rgba(15, 23, 42, 0.25),
+    0 10px 25px rgba(37, 99, 235, 0.12);
+
+  animation: folderModalShow 0.3s ease;
+
+  position: relative;
+  overflow: hidden;
+}
+
+/* Top colorful line */
+
+.folder-modal::before {
+  content: "";
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: 5px;
+
+  background: linear-gradient(
+    90deg,
+    #2563eb,
+    #7c3aed,
+    #ec4899,
+    #f97316
+  );
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.folder-modal-header {
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+
+  margin-bottom: 28px;
+}
+
+.folder-modal-icon {
+  width: 58px;
+  height: 58px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 17px;
+
+  font-size: 29px;
+
+  background: linear-gradient(
+    135deg,
+    #dbeafe,
+    #ede9fe
+  );
+
+  box-shadow:
+    0 8px 20px rgba(37, 99, 235, 0.15);
+}
+
+.folder-modal-header h2 {
+  margin: 0;
+
+  font-size: 22px;
+  font-weight: 800;
+
+  color: #172033;
+}
+
+.folder-modal-header p {
+  margin: 5px 0 0;
+
+  font-size: 13px;
+
+  color: #64748b;
+}
+
+/* =========================================
+   CLOSE BUTTON
+========================================= */
+
+.folder-close-button {
+  margin-left: auto;
+
+  width: 38px;
+  height: 38px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #f1f5f9;
+
+  color: #64748b;
+
+  font-size: 25px;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: all 0.2s ease;
+}
+
+.folder-close-button:hover {
+  background: #fee2e2;
+
+  color: #dc2626;
+
+  transform: rotate(90deg);
+}
+
+/* =========================================
+   FORM
+========================================= */
+
+.folder-form-group {
+  margin-bottom: 20px;
+}
+
+.folder-form-group label {
+  display: block;
+
+  margin-bottom: 9px;
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+  color: #334155;
+}
+
+.folder-form-group input {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding: 14px 16px;
+
+  border: 2px solid #e2e8f0;
+
+  border-radius: 13px;
+
+  outline: none;
+
+  background: #f8fafc;
+
+  color: #172033;
+
+  font-size: 15px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.folder-form-group input::placeholder {
+  color: #94a3b8;
+}
+
+.folder-form-group input:focus {
+  border-color: #6366f1;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 0 0 4px rgba(99, 102, 241, 0.12);
+}
+
+.folder-form-group input:disabled {
+  opacity: 0.65;
+
+  cursor: not-allowed;
+}
+
+/* =========================================
+   MESSAGE
+========================================= */
+
+.folder-message {
+  padding: 12px 14px;
+
+  margin-bottom: 20px;
+
+  border-radius: 12px;
+
+  background: linear-gradient(
+    135deg,
+    #eff6ff,
+    #f5f3ff
+  );
+
+  border: 1px solid #dbeafe;
+
+  color: #3730a3;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  line-height: 1.5;
+}
+
+/* =========================================
+   ACTION BUTTONS
+========================================= */
+
+.folder-modal-actions {
+  display: flex;
+
+  justify-content: flex-end;
+
+  gap: 12px;
+
+  margin-top: 8px;
+}
+
+.folder-cancel-button,
+.folder-create-button {
+  border: none;
+
+  min-height: 46px;
+
+  padding: 0 20px;
+
+  border-radius: 12px;
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.folder-cancel-button {
+  background: #f1f5f9;
+
+  color: #475569;
+}
+
+.folder-cancel-button:hover {
+  background: #e2e8f0;
+
+  color: #1e293b;
+
+  transform: translateY(-1px);
+}
+
+.folder-create-button {
+  color: #ffffff;
+
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #7c3aed
+  );
+
+  box-shadow:
+    0 8px 18px rgba(79, 70, 229, 0.25);
+}
+
+.folder-create-button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 12px 25px rgba(79, 70, 229, 0.35);
+}
+
+.folder-create-button:active {
+  transform: translateY(0);
+}
+
+.folder-create-button:disabled,
+.folder-cancel-button:disabled {
+  opacity: 0.6;
+
+  cursor: not-allowed;
+
+  transform: none;
+}
+
+/* =========================================
+   ANIMATIONS
+========================================= */
+
+@keyframes folderOverlayFade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes folderModalShow {
+  from {
+    opacity: 0;
+
+    transform: translateY(20px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 600px) {
+  .folder-modal-overlay {
+    padding: 14px;
+  }
+
+  .folder-modal {
+    padding: 22px;
+
+    border-radius: 20px;
+  }
+
+  .folder-modal-header {
+    gap: 11px;
+
+    margin-bottom: 22px;
+  }
+
+  .folder-modal-icon {
+    width: 50px;
+    height: 50px;
+
+    font-size: 25px;
+
+    border-radius: 14px;
+  }
+
+  .folder-modal-header h2 {
+    font-size: 19px;
+  }
+
+  .folder-modal-header p {
+    font-size: 12px;
+  }
+
+  .folder-modal-actions {
+    flex-direction: column-reverse;
+  }
+
+  .folder-cancel-button,
+  .folder-create-button {
+    width: 100%;
+  }
+}
