@@ -1,11 +1,19 @@
 import { useState } from "react";
+
 import axios from "axios";
+
 import "../styles/CreateFolder.css";
 
 function CreateFolder({ userId, onFolderCreated, onClose }) {
   const [folderName, setFolderName] = useState("");
+
   const [loading, setLoading] = useState(false);
+
   const [message, setMessage] = useState("");
+
+  const API =
+    import.meta.env.VITE_API_URL ||
+    "http://localhost:8080/api";
 
   const handleCreateFolder = async (e) => {
     e.preventDefault();
@@ -25,7 +33,7 @@ function CreateFolder({ userId, onFolderCreated, onClose }) {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/folders/create",
+        `${API}/folders/create`,
         {
           folderName: folderName.trim(),
           userId: userId,
@@ -33,6 +41,7 @@ function CreateFolder({ userId, onFolderCreated, onClose }) {
       );
 
       setMessage("Folder created successfully! 🎉");
+
       setFolderName("");
 
       if (onFolderCreated) {
@@ -61,18 +70,17 @@ function CreateFolder({ userId, onFolderCreated, onClose }) {
 
   return (
     <div className="folder-modal-overlay">
-
       <div className="folder-modal">
 
         {/* Header */}
         <div className="folder-modal-header">
-
           <div className="folder-modal-icon">
             📁
           </div>
 
           <div>
             <h2>Create New Folder</h2>
+
             <p>
               Organize your files easily
             </p>
@@ -85,12 +93,10 @@ function CreateFolder({ userId, onFolderCreated, onClose }) {
           >
             ×
           </button>
-
         </div>
 
         {/* Form */}
         <form onSubmit={handleCreateFolder}>
-
           <div className="folder-form-group">
 
             <label htmlFor="folderName">
@@ -108,7 +114,6 @@ function CreateFolder({ userId, onFolderCreated, onClose }) {
               autoFocus
               disabled={loading}
             />
-
           </div>
 
           {/* Message */}
@@ -141,11 +146,8 @@ function CreateFolder({ userId, onFolderCreated, onClose }) {
             </button>
 
           </div>
-
         </form>
-
       </div>
-
     </div>
   );
 }

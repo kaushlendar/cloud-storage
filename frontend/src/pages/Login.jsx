@@ -4,11 +4,18 @@ import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
+
   const [password, setPassword] = useState("");
+
   const [message, setMessage] = useState("");
+
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
+
+  const API =
+    import.meta.env.VITE_API_URL ||
+    "http://localhost:8080/api";
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -18,7 +25,7 @@ function Login() {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/auth/login",
+        `${API}/auth/login`,
         {
           email,
           password,
@@ -35,7 +42,6 @@ function Login() {
       setTimeout(() => {
         navigate("/dashboard");
       }, 700);
-
     } catch (error) {
       console.error(error);
 
@@ -48,7 +54,6 @@ function Login() {
       } else {
         setMessage("Backend server is not running");
       }
-
     } finally {
       setLoading(false);
     }
@@ -78,7 +83,6 @@ function Login() {
           boxSizing: "border-box",
         }}
       >
-
         <div
           style={{
             width: "80px",
@@ -117,7 +121,6 @@ function Login() {
         </p>
 
         <form onSubmit={handleLogin}>
-
           <label
             style={{
               display: "block",
@@ -190,7 +193,6 @@ function Login() {
           >
             {loading ? "Logging in..." : "🚀 Login"}
           </button>
-
         </form>
 
         {message && (
@@ -227,7 +229,6 @@ function Login() {
             Create Account
           </Link>
         </p>
-
       </div>
     </div>
   );

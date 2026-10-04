@@ -11,6 +11,10 @@ function Register() {
 
   const navigate = useNavigate();
 
+  const API =
+    import.meta.env.VITE_API_URL ||
+    "http://localhost:8080/api";
+
   const handleRegister = async (e) => {
     e.preventDefault();
 
@@ -18,7 +22,7 @@ function Register() {
     setLoading(true);
 
     try {
-      await axios.post("http://localhost:8080/api/auth/register", {
+      await axios.post(`${API}/auth/register`, {
         name,
         email,
         password,
@@ -34,7 +38,7 @@ function Register() {
         navigate("/login");
       }, 1500);
     } catch (error) {
-      console.error(error);
+      console.error("Registration error:", error);
 
       if (error.response) {
         setMessage(
@@ -52,18 +56,18 @@ function Register() {
 
   return (
     <div style={styles.page}>
-      {/* Background Circles */}
       <div style={styles.circle1}></div>
       <div style={styles.circle2}></div>
+      <div style={styles.circle3}></div>
 
       <div style={styles.card}>
-        {/* Logo */}
         <div style={styles.logo}>
           ☁️
         </div>
 
         <h1 style={styles.title}>
-          Cloud<span style={styles.titleColor}>Vault</span>
+          Cloud
+          <span style={styles.titleColor}>Vault</span>
         </h1>
 
         <p style={styles.subtitle}>
@@ -71,9 +75,10 @@ function Register() {
         </p>
 
         <form onSubmit={handleRegister}>
-          {/* Name */}
           <div style={styles.inputGroup}>
-            <label style={styles.label}>👤 Full Name</label>
+            <label style={styles.label}>
+              👤 Full Name
+            </label>
 
             <input
               type="text"
@@ -85,9 +90,10 @@ function Register() {
             />
           </div>
 
-          {/* Email */}
           <div style={styles.inputGroup}>
-            <label style={styles.label}>📧 Email Address</label>
+            <label style={styles.label}>
+              📧 Email Address
+            </label>
 
             <input
               type="email"
@@ -99,9 +105,10 @@ function Register() {
             />
           </div>
 
-          {/* Password */}
           <div style={styles.inputGroup}>
-            <label style={styles.label}>🔐 Password</label>
+            <label style={styles.label}>
+              🔐 Password
+            </label>
 
             <input
               type="password"
@@ -114,24 +121,25 @@ function Register() {
             />
 
             <small style={styles.passwordHint}>
-              Password must contain at least 6 characters
+              🔒 Password must contain at least 6 characters
             </small>
           </div>
 
-          {/* Button */}
           <button
             type="submit"
             disabled={loading}
             style={{
               ...styles.button,
               opacity: loading ? 0.7 : 1,
+              cursor: loading ? "not-allowed" : "pointer",
             }}
           >
-            {loading ? "Creating Account..." : "Create Account 🚀"}
+            {loading
+              ? "⏳ Creating Account..."
+              : "🚀 Create Account"}
           </button>
         </form>
 
-        {/* Message */}
         {message && (
           <div
             style={{
@@ -139,23 +147,31 @@ function Register() {
               color: message.includes("successfully")
                 ? "#16a34a"
                 : "#dc2626",
+              background: message.includes("successfully")
+                ? "#dcfce7"
+                : "#fee2e2",
+              border: message.includes("successfully")
+                ? "1px solid #86efac"
+                : "1px solid #fca5a5",
             }}
           >
             {message}
           </div>
         )}
 
-        {/* Login */}
         <p style={styles.loginText}>
           Already have an account?{" "}
-          <Link to="/login" style={styles.loginLink}>
-            Login here
+          <Link
+            to="/login"
+            style={styles.loginLink}
+          >
+            Login here →
           </Link>
         </p>
 
-        {/* Security */}
         <div style={styles.security}>
-          🔒 Your data is secure & encrypted
+          <span>🔒</span>
+          <span>Your data is secure & encrypted</span>
         </div>
       </div>
     </div>
@@ -165,159 +181,196 @@ function Register() {
 const styles = {
   page: {
     minHeight: "100vh",
+    width: "100%",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     position: "relative",
     overflow: "hidden",
     background:
-      "linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #312e81 100%)",
-    fontFamily: "Arial, sans-serif",
+      "linear-gradient(135deg, #020617 0%, #1e1b4b 35%, #312e81 65%, #581c87 100%)",
+    fontFamily: "Arial, Helvetica, sans-serif",
     padding: "20px",
     boxSizing: "border-box",
   },
 
   circle1: {
     position: "absolute",
-    width: "350px",
-    height: "350px",
+    width: "380px",
+    height: "380px",
     borderRadius: "50%",
-    background: "rgba(59, 130, 246, 0.25)",
-    top: "-100px",
-    left: "-100px",
+    background:
+      "radial-gradient(circle, rgba(59,130,246,0.45), rgba(59,130,246,0))",
+    top: "-140px",
+    left: "-120px",
     filter: "blur(5px)",
   },
 
   circle2: {
     position: "absolute",
-    width: "400px",
-    height: "400px",
+    width: "450px",
+    height: "450px",
     borderRadius: "50%",
-    background: "rgba(168, 85, 247, 0.2)",
-    bottom: "-150px",
-    right: "-100px",
+    background:
+      "radial-gradient(circle, rgba(168,85,247,0.40), rgba(168,85,247,0))",
+    bottom: "-180px",
+    right: "-130px",
     filter: "blur(5px)",
   },
 
+  circle3: {
+    position: "absolute",
+    width: "250px",
+    height: "250px",
+    borderRadius: "50%",
+    background:
+      "radial-gradient(circle, rgba(236,72,153,0.25), rgba(236,72,153,0))",
+    top: "35%",
+    right: "10%",
+    filter: "blur(15px)",
+  },
+
   card: {
-    width: "420px",
+    width: "430px",
     maxWidth: "100%",
-    padding: "35px",
-    borderRadius: "24px",
-    background: "rgba(255, 255, 255, 0.95)",
+    padding: "38px",
+    borderRadius: "26px",
+    background:
+      "linear-gradient(145deg, rgba(255,255,255,0.98), rgba(248,250,252,0.94))",
     backdropFilter: "blur(20px)",
     boxShadow:
-      "0 25px 60px rgba(0, 0, 0, 0.35)",
+      "0 30px 80px rgba(0,0,0,0.45)",
+    border:
+      "1px solid rgba(255,255,255,0.7)",
     position: "relative",
     zIndex: 2,
     boxSizing: "border-box",
   },
 
   logo: {
-    width: "75px",
-    height: "75px",
-    margin: "0 auto 15px",
-    borderRadius: "22px",
+    width: "82px",
+    height: "82px",
+    margin: "0 auto 16px",
+    borderRadius: "24px",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    fontSize: "38px",
+    fontSize: "40px",
     background:
-      "linear-gradient(135deg, #2563eb, #7c3aed)",
+      "linear-gradient(135deg, #2563eb, #7c3aed, #db2777)",
     boxShadow:
-      "0 10px 25px rgba(37, 99, 235, 0.4)",
+      "0 15px 35px rgba(79,70,229,0.45)",
+    border:
+      "4px solid rgba(255,255,255,0.8)",
   },
 
   title: {
     textAlign: "center",
     margin: "5px 0",
-    fontSize: "32px",
+    fontSize: "34px",
     fontWeight: "800",
+    letterSpacing: "-1px",
     color: "#111827",
   },
 
   titleColor: {
-    color: "#6366f1",
+    background:
+      "linear-gradient(90deg, #2563eb, #7c3aed, #db2777)",
+    WebkitBackgroundClip: "text",
+    WebkitTextFillColor: "transparent",
   },
 
   subtitle: {
     textAlign: "center",
     color: "#64748b",
-    marginBottom: "28px",
+    marginBottom: "30px",
     fontSize: "14px",
+    lineHeight: "1.5",
   },
 
   inputGroup: {
-    marginBottom: "18px",
+    marginBottom: "20px",
   },
 
   label: {
     display: "block",
-    marginBottom: "7px",
+    marginBottom: "8px",
     color: "#334155",
     fontSize: "14px",
-    fontWeight: "600",
+    fontWeight: "700",
   },
 
   input: {
     width: "100%",
-    padding: "14px 15px",
-    border: "1px solid #dbeafe",
-    borderRadius: "12px",
+    padding: "14px 16px",
+    border: "2px solid #e2e8f0",
+    borderRadius: "13px",
     outline: "none",
     fontSize: "15px",
-    background: "#f8fafc",
+    color: "#1e293b",
+    background:
+      "linear-gradient(135deg, #f8fafc, #eff6ff)",
     boxSizing: "border-box",
-    transition: "0.3s",
+    transition: "all 0.3s ease",
+    boxShadow:
+      "0 3px 10px rgba(15,23,42,0.04)",
   },
 
   passwordHint: {
     display: "block",
-    marginTop: "6px",
+    marginTop: "7px",
     color: "#94a3b8",
     fontSize: "11px",
   },
 
   button: {
     width: "100%",
-    padding: "15px",
-    marginTop: "8px",
+    padding: "16px",
+    marginTop: "5px",
     border: "none",
-    borderRadius: "12px",
+    borderRadius: "13px",
     background:
-      "linear-gradient(135deg, #2563eb, #7c3aed)",
-    color: "white",
+      "linear-gradient(135deg, #2563eb 0%, #7c3aed 50%, #db2777 100%)",
+    color: "#ffffff",
     fontSize: "16px",
     fontWeight: "700",
-    cursor: "pointer",
+    letterSpacing: "0.2px",
     boxShadow:
-      "0 10px 20px rgba(79, 70, 229, 0.3)",
+      "0 12px 25px rgba(79,70,229,0.35)",
+    transition: "all 0.3s ease",
   },
 
   message: {
     textAlign: "center",
-    marginTop: "18px",
+    marginTop: "20px",
+    padding: "12px",
+    borderRadius: "10px",
     fontSize: "14px",
     fontWeight: "600",
   },
 
   loginText: {
     textAlign: "center",
-    marginTop: "25px",
+    marginTop: "26px",
     color: "#64748b",
     fontSize: "14px",
   },
 
   loginLink: {
-    color: "#4f46e5",
-    fontWeight: "700",
+    color: "#6366f1",
+    fontWeight: "800",
     textDecoration: "none",
+    marginLeft: "3px",
   },
 
   security: {
-    marginTop: "22px",
+    marginTop: "24px",
     paddingTop: "18px",
     borderTop: "1px solid #e2e8f0",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "7px",
     textAlign: "center",
     color: "#64748b",
     fontSize: "12px",
